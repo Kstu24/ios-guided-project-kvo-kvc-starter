@@ -93,7 +93,7 @@
     NSLog(@"%@", self.hrController);
     
     NSString *keyPath = @"departments.@distinctUnionOfArrays.employees";
-    NSString *allEmployees = [self.hrController valueForKeyPath:keyPath];
+    NSArray *allEmployees = [self.hrController valueForKeyPath:keyPath];
     NSLog(@"Employee's name: %@", allEmployees);
     
     //    [marketing setValue:@(75000) forKeyPath:@"manager.salary"];
@@ -111,6 +111,13 @@
     }
     
     
+    NSSortDescriptor *nameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+    NSSortDescriptor *salarySortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"salary" ascending:NO];
+    
+    [marketing setValue:@"Joe" forKeyPath:@"manager.name"];
+    
+    NSArray *sortedEmployees = [allEmployees sortedArrayUsingDescriptors:@[nameSortDescriptor, salarySortDescriptor]];
+    NSLog(@"Sorted: %@", sortedEmployees);
 }
 
 
