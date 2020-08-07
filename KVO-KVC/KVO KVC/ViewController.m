@@ -22,16 +22,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-
+    
+    
     LSIDepartment *marketing = [[LSIDepartment alloc] init];
     marketing.name = @"Marketing";
     LSIEmployee *philSchiller = [[LSIEmployee alloc] init];
     philSchiller.name = @"Phil";
     philSchiller.jobTitle = @"VP of Marketing";
-    philSchiller.salary = 10000000; 
+    philSchiller.salary = 10000000;
     marketing.manager = philSchiller;
-
+    
     
     LSIDepartment *engineering = [[LSIDepartment alloc] init];
     engineering.name = @"Engineering";
@@ -59,31 +59,51 @@
     [engineering addEmployee:e1];
     [engineering addEmployee:e2];
     [marketing addEmployee:e3];
-
+    
     LSIHRController *controller = [[LSIHRController alloc] init];
     [controller addDepartment:engineering];
     [controller addDepartment:marketing];
     self.hrController = controller;
     
+    
+    
+#pragma Key Value (KVC)
+    //    NSString *key = @"privateName";
+    //
+    //    [craig setValue:@"Hair Force One" forKey:key];
+    //
+    //    NSString *value = [craig valueForKey:key]; // Can't use craig.privateName
+    //    NSLog(@"Value for key %@: %@", key, value);
+    
+    //    for (id employee in engineering.employees) {
+    //        NSString *value = [employee valueForKey:key];
+    //        NSLog(@"Value for key %@: %@", key, value);
+    //    }
+    
+    //    value = [philSchiller valueForKey:key];
+    //    NSLog(@"Before: %@: %@", key, value);
+    //    [philSchiller setValue:@"Apple fellow" forKey:key];
+    //    value = [philSchiller valueForKey:key];
+    //    NSLog(@"After: %@: %@", key, value);
+    
+#pragma Key path
+    
+    [marketing addEmployee:craig];
+    
     NSLog(@"%@", self.hrController);
     
-    NSString *key = @"privateName";
+    NSString *keyPath = @"departments.@distinctUnionOfArrays.employees";
+    NSString *allEmployees = [self.hrController valueForKeyPath:keyPath];
+    NSLog(@"Employee's name: %@", allEmployees);
     
-    [craig setValue:@"Hair Force One" forKey:key];
+    [marketing setValue:@(75000) forKeyPath:@"manager.salary"];
     
-    NSString *value = [craig valueForKey:key]; // Can't use craig.privateName
-    NSLog(@"Value for key %@: %@", key, value);
+    NSLog(@"Average salary: %@", [allEmployees valueForKeyPath:@"@avg.salary"]);
+    NSLog(@"Max salary: %@", [allEmployees valueForKeyPath:@"@max.salary"]);
+    NSLog(@"Minimum salary: %@", [allEmployees valueForKeyPath:@"@min.salary"]);
+    NSLog(@"Number of salaries: %@", [allEmployees valueForKeyPath:@"@count.salary"]);
+
     
-//    for (id employee in engineering.employees) {
-//        NSString *value = [employee valueForKey:key];
-//        NSLog(@"Value for key %@: %@", key, value);
-//    }
-    
-    value = [philSchiller valueForKey:key];
-    NSLog(@"Before: %@: %@", key, value);
-    [philSchiller setValue:@"Apple fellow" forKey:key];
-    value = [philSchiller valueForKey:key];
-    NSLog(@"After: %@: %@", key, value);
 }
 
 
