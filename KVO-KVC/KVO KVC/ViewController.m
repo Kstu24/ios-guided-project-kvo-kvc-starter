@@ -69,6 +69,8 @@
     
     NSString *key = @"privateName";
     
+    [craig setValue:@"Hair Force One" forKey:key];
+    
     NSString *value = [craig valueForKey:key]; // Can't use craig.privateName
     NSLog(@"Value for key %@: %@", key, value);
     
@@ -77,6 +79,11 @@
 //        NSLog(@"Value for key %@: %@", key, value);
 //    }
     
+    value = [philSchiller valueForKey:key];
+    NSLog(@"Before: %@: %@", key, value);
+    [philSchiller setValue:@"Apple fellow" forKey:key];
+    value = [philSchiller valueForKey:key];
+    NSLog(@"After: %@: %@", key, value);
 }
 
 
