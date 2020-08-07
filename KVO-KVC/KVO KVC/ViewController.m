@@ -96,13 +96,20 @@
     NSString *allEmployees = [self.hrController valueForKeyPath:keyPath];
     NSLog(@"Employee's name: %@", allEmployees);
     
-    [marketing setValue:@(75000) forKeyPath:@"manager.salary"];
+    //    [marketing setValue:@(75000) forKeyPath:@"manager.salary"];
     
     NSLog(@"Average salary: %@", [allEmployees valueForKeyPath:@"@avg.salary"]);
     NSLog(@"Max salary: %@", [allEmployees valueForKeyPath:@"@max.salary"]);
     NSLog(@"Minimum salary: %@", [allEmployees valueForKeyPath:@"@min.salary"]);
     NSLog(@"Number of salaries: %@", [allEmployees valueForKeyPath:@"@count.salary"]);
-
+    
+    @try {
+        NSArray *directSalaries = [self valueForKeyPath:@"hrController.departments.@unionOfArrays.employees.salary"];
+        NSLog(@"Direct salaries: %@", directSalaries);
+    } @catch (NSException *exception) {
+        NSLog(@"Got an exception: %@", exception);
+    }
+    
     
 }
 
